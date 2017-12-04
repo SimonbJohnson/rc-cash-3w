@@ -1,5 +1,7 @@
 function generateDash(data,geom){
-    console.log(data);
+    
+    $('.sp-circle').remove();
+    
     var cf = crossfilter(data);
         cf.whereDim = cf.dimension(function(d){return d['#country+code']});
         cf.whoDim = cf.dimension(function(d){return d['#org']});
@@ -154,6 +156,8 @@ function generateDash(data,geom){
         dc.dataCount("#count-info")
             .dimension(cf)
             .group(all);                                    
+
+
 
             dc.renderAll();
 
