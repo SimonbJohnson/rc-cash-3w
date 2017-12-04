@@ -1,7 +1,7 @@
 function generateDash(data,geom){
     
     $('.sp-circle').remove();
-    
+
     var cf = crossfilter(data);
         cf.whereDim = cf.dimension(function(d){return d['#country+code']});
         cf.whoDim = cf.dimension(function(d){return d['#org']});
@@ -166,9 +166,9 @@ function generateDash(data,geom){
     g.append('text')
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
-        .attr('x', $('#whochart').width()/2)
-        .attr('y', 700)
-        .text('Activities');
+        .attr('x', $('#row-axis').width()/2)
+        .attr('y', 46)
+        .text('No. responses');
 
     var g = d3.selectAll('#whatchart').select('svg').append('g');
     
@@ -176,13 +176,27 @@ function generateDash(data,geom){
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
         .attr('x', $('#whatchart').width()/2)
-        .attr('y', 700)
-        .text('Activities');            
+        .attr('y', 296)
+        .text('No. responses');            
 
             $('#reset').on('click',function(){
                 dc.filterAll();
                 dc.redrawAll();
-            }); 
+            });
+
+    var g = d3.selectAll('#modalitychart').select('svg').append('g');
+    
+    g.append('text')
+        .attr('class', 'x-axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('x', $('#modalitychart').width()/2)
+        .attr('y', 296)
+        .text('No. responses');            
+
+            $('#reset').on('click',function(){
+                dc.filterAll();
+                dc.redrawAll();
+            });              
 }
 
 function hxlProxyToJSON(input,headers){
