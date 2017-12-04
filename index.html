@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Global Partner National Society 3W</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/dc.css"/>
+        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+        <link rel="stylesheet" type="text/css" href="css/site.css"/>
+        <script src="libs/jquery.js"></script>
+        <script src="libs/d3.min.js"></script>
+        <script src="libs/crossfilter.v1.min.js"></script>
+        <script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
+        <script src="libs/leaflet.js"></script>
+        <script src="libs/dc.leaflet.js"></script>
+        <script src="libs/d3.tip.min.js"></script>
+        <script src="libs/topojson.v1.min.js"></script>
+        <script src="libs/dc.axis.js"></script>      
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">  
+                    <p><h2 id="title">RC Cash 3W</h2></p>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-md-12 bottomspacer titledesc">  
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <button id="reset" class="button buttonlink">Reset All</button>
+                    <a class="buttonlink" href="https://www.youtube.com/watch?v=YyUNtRgjJBo" target="_blank">Help</a>
+                </div>
+                <div class="col-xs-4">
+                    <div id="count-info" class="count">
+                        <span class="filter-count"></span> selected out of <span class="total-count"></span> responses.
+                    </div>
+                </div>                   
+                <div class="col-xs-4">
+                    <div id="total" class="count">
+                        <span class="filter-count"></span> (CHF)
+                    </div>
+                    <div id="totalquality" class="quality">
+                        <span class="filter-count"></span> not included due to missing data.
+                    </div>                                        
+                </div>
+            </div>    
+            <div class="row">                           
+                <div class="col-md-6">
+                    Current filter: <span id="mapfilter"></span>
+                    <div id="wherechart" class="viz_chart">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="whochart" class="viz_chart">Current filter: <span class='filter' style='display: none;'></span> </div>
+                    <div id="row-axis"></div>
+                </div>
+                <div class="col-md-3">
+                    <div id="whatchart" class="viz_chart">Current filter: <span class='filter' style='display: none;'></span> </div>
+                    <div id="modalitychart" class="viz_chart">Current filter: <span class='filter' style='display: none;'></span> </div>                    
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3>Data Table</h3>
+                    <table class="table table-hover" id="data-table">
+                        <thead>
+                            <tr class="header" id="tabletip">
+                                <th>Country</th>
+                                <th>Organisation</th>
+                                <th>Sector</th>
+                                <th>Modality</th>
+                                <th>Total value (CHF)</th>
+                                <th>Year</th>          
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>           
+        </div>   
+        <script src="js/site.js"></script> 
+    </body>
+</html>
