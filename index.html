@@ -11,7 +11,7 @@
         <script src="libs/jquery.js"></script>
         <script src="libs/d3.min.js"></script>
         <script src="libs/crossfilter.v1.min.js"></script>
-        <script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
+        <script src="libs/dc.js"></script>
         <script src="libs/leaflet.js"></script>
         <script src="libs/dc.leaflet.js"></script>
         <script src="libs/d3.tip.min.js"></script>
@@ -52,17 +52,18 @@
             </div>    
             <div class="row">                           
                 <div class="col-md-6">
-                    Current filter: <span id="mapfilter"></span>
+                    <p class="graphtop"><span class="title">Map</span>Current filter: <span id="mapfilter"></span></p>
                     <div id="wherechart" class="viz_chart">
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div id="whochart" class="viz_chart">Current filter: <span class='filter' style='display: none;'></span> </div>
+                    <div id="whochart" class="viz_chart"><p class="graphtop"><span class="title">National Society</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>
                     <div id="row-axis"></div>
                 </div>
                 <div class="col-md-3">
-                    <div id="whatchart" class="viz_chart">Current filter: <span class='filter' style='display: none;'></span> </div>
-                    <div id="modalitychart" class="viz_chart">Current filter: <span class='filter' style='display: none;'></span> </div>                    
+                    <div id="whatchart" class="viz_chart"><p class="graphtop"><span class="title">Sector</span>Current filter: <span class='filter' style='display: none;'></span> </div></p>
+                    <div id="modalitychart" class="viz_chart"><p class="graphtop"><span class="title">Modality</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>
+                    <div id="deliverychart" class="viz_chart"><p class="graphtop"><span class="title">Delivery</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>                     
                 </div>
             </div> 
             <div class="row">

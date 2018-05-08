@@ -60,7 +60,7 @@ dc.axisChart = function (parent, chartGroup) {
         if (axisG.empty()) {
             axisG = _g.append('g').attr('class', 'axis');
         }
-        dc.transition(axisG, _chart.transitionDuration(), _chart.transitionDelay())
+        dc.transition(axisG, _chart.transitionDuration(), 0)
             .call(_xAxis);
     }
 
