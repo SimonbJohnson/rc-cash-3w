@@ -111,9 +111,9 @@ function generateDash(data,geom){
             .featureOptions({
                 'fillColor': '#cccccc',
                 'color': '#cccccc',
-                'opacity':1,
+                'opacity':0.5,
                 'fillOpacity': 0,
-                'weight': 1
+                'weight': 0.5
             });
 
         cf.whereChart.on("postRedraw",(function(e){
