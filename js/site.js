@@ -7,11 +7,13 @@ function generateDash(data,geom){
         cf.whoDim = cf.dimension(function(d){return d['#org']});
         cf.whatDim = cf.dimension(function(d){return d['#sector']});
         cf.modalityDim = cf.dimension(function(d){return d['#modality']});
+        cf.deliveryDim = cf.dimension(function(d){return d['#delivery+mechanism']});
 
         cf.whereGroup = cf.whereDim.group();
         cf.whoGroup = cf.whoDim.group();
         cf.whatGroup = cf.whatDim.group();
         cf.modalityGroup = cf.modalityDim.group();
+        cf.deliveryGroup = cf.deliveryDim.group();
 
         var fundingall = cf.groupAll().reduceSum(function(d) {
             if(isNaN(d['#value+total'])){
@@ -35,6 +37,7 @@ function generateDash(data,geom){
         cf.whatChart = dc.rowChart('#whatchart');
         cf.whereChart = dc.leafletChoroplethChart('#wherechart');
         cf.modalityChart = dc.rowChart('#modalitychart');
+        cf.deliveryChart = dc.rowChart('#deliverychart');
 
         cf.whoChart.width($('#whochart').width()).height(2000)
             .dimension(cf.whoDim)
@@ -46,7 +49,7 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis({ tickSize: [0, 0]});
 
-        cf.whatChart.width($('#whatchart').width()).height(300)
+        cf.whatChart.width($('#whatchart').width()).height(200)
             .dimension(cf.whatDim)
             .group(cf.whatGroup)
             .elasticX(true)
@@ -56,7 +59,7 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis().ticks(5);
 
-        cf.modalityChart.width($('#modalitychart').width()).height(300)
+        cf.modalityChart.width($('#modalitychart').width()).height(150)
             .dimension(cf.modalityDim)
             .group(cf.modalityGroup)
             .elasticX(true)
@@ -64,7 +67,17 @@ function generateDash(data,geom){
             .colorDomain([0,1])
             .colorAccessor(function(d, i){return 1;})
             .ordering(function(d){ return -d.value })
-            .xAxis().ticks(5);            
+            .xAxis().ticks(5);
+
+        cf.deliveryChart.width($('#deliverychart').width()).height(230)
+            .dimension(cf.deliveryDim)
+            .group(cf.deliveryGroup)
+            .elasticX(true)
+            .colors(['#CCCCCC', '#EF9A9A'])
+            .colorDomain([0,1])
+            .colorAccessor(function(d, i){return 1;})
+            .ordering(function(d){ return -d.value })
+            .xAxis().ticks(5);                             
 
         dc.axisChart('#row-axis')
             .width($('#whatchart').width()).height(50)
@@ -73,7 +86,7 @@ function generateDash(data,geom){
             .elasticX( true )
             .xAxis().ticks(5);            
 
-        cf.whereChart.width($('#wherechart').width()).height(700)
+        cf.whereChart.width($('#wherechart').width()).height(750)
             .dimension(cf.whereDim)
             .group(cf.whereGroup)
             .center([0,0])
@@ -98,9 +111,9 @@ function generateDash(data,geom){
             .featureOptions({
                 'fillColor': '#cccccc',
                 'color': '#cccccc',
-                'opacity':1,
+                'opacity':0.5,
                 'fillOpacity': 0,
-                'weight': 1
+                'weight': 0.5
             });
 
         cf.whereChart.on("postRedraw",(function(e){
@@ -135,11 +148,7 @@ function generateDash(data,geom){
                    return d['#value+total']; 
                 },
                 function(d){
-                    if (d['#date'] instanceof Date){
-                        return d['#date'].getFullYear();
-                    } else {
-                        return 'No Data';
-                    }
+                    return d['#date']
                 }                                                  
             ]).sortBy(function(d) {
                 return d['#country+name'];
@@ -243,9 +252,9 @@ $.when(dataCall, geomCall).then(function(dataArgs, geomArgs){
     var data = dataArgs[0];
     data = hxlProxyToJSON(data);
     var parseDateFormat = d3.time.format("%Y-%m-%d").parse;
-    data.forEach(function(d){
+    /*data.forEach(function(d){
          d['#date'] = parseDateFormat(d['#date']);
-    });
+    });*/
     var geom = topojson.feature(geomArgs[0],geomArgs[0].objects.geom);
     generateDash(data,geom);
 });

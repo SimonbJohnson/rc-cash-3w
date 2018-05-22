@@ -43,7 +43,7 @@
 
 #whochart {
   overflow-y: auto;
-  height: 600px;
+  height: 660px;
 }
 
 #whochart svg g g.axis .tick text {
@@ -61,4 +61,13 @@
 
 .quality {
     clear:both;
+}
+
+.title {
+    font-weight:bold;
+    margin-right:10px;
+}
+
+.graphtop {
+    height: 30px;
 }

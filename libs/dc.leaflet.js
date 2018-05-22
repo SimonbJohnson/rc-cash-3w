@@ -603,7 +603,7 @@ dc.leafletChoroplethChart = function (parent, chartGroup) {
         'color': 'black',
         'opacity':1,
         'fillOpacity': 0,
-        'weight': 2
+        'weight': 0.5
     };
 
     var _featureKey = function (feature) {
@@ -628,20 +628,20 @@ dc.leafletChoroplethChart = function (parent, chartGroup) {
                     options.opacity = 1;
                     options.fillOpacity = 0.8;
                     options.color = 'white';
-                    options.weight = 2;                                                 
+                    options.weight = 0.5;                                                 
                 } else {
                     options.fillColor = _chart.getColor(0, v.i);
                     options.opacity = 1;
                     options.fillOpacity = 0.8;
                     options.color = 'white';
-                    options.weight = 2;                                                      
+                    options.weight = 0.5;                                                      
                 }
             } else {
                 options.fillColor = _chart.getColor(v.d.value, v.i);
                 options.opacity = 1;
                 options.fillOpacity = 0.8;
                 options.color = 'white';
-                options.weight = 2;                                   
+                options.weight = 0.5;                                   
             }           
         }
         return options;
