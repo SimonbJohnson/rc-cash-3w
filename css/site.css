@@ -71,3 +71,7 @@
 .graphtop {
     height: 30px;
 }
+
+.dc-chart g.row text {
+  font-size: 13px;
+}

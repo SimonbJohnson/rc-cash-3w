@@ -32,37 +32,45 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-12 col-sm-3">
                     <button id="reset" class="button buttonlink">Reset All</button>
                     <a class="buttonlink" href="https://www.youtube.com/watch?v=YyUNtRgjJBo" target="_blank">Help</a>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-4 col-sm-3">
                     <div id="count-info" class="count">
                         <span class="filter-count"></span> selected out of <span class="total-count"></span> responses.
                     </div>
-                </div>                   
-                <div class="col-xs-4">
+                </div>
+                <div class="col-xs-4 col-sm-3">
+                    <div id="bentotal" class="count">
+                        <span class="filter-count"></span> beneficiaries reached.
+                    </div>
+                    <div id="benquality" class="quality">
+                        <span class="filter-count"></span> responses not included due to missing data.
+                    </div>                                        
+                </div>                                   
+                <div class="col-xs-4 col-sm-3">
                     <div id="total" class="count">
-                        <span class="filter-count"></span> (CHF)
+                        <span class="filter-count"></span> (CHF) distributed
                     </div>
                     <div id="totalquality" class="quality">
-                        <span class="filter-count"></span> not included due to missing data.
+                        <span class="filter-count"></span> response not included due to missing data.
                     </div>                                        
                 </div>
             </div>    
             <div class="row">                           
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-12">
                     <p class="graphtop"><span class="title">Map</span>Current filter: <span id="mapfilter"></span></p>
                     <div id="wherechart" class="viz_chart">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-12">
                     <div id="whochart" class="viz_chart"><p class="graphtop"><span class="title">National Society</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>
                     <div id="row-axis"></div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-12">
                     <div id="whatchart" class="viz_chart"><p class="graphtop"><span class="title">Sector</span>Current filter: <span class='filter' style='display: none;'></span> </div></p>
-                    <div id="modalitychart" class="viz_chart"><p class="graphtop"><span class="title">Modality</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>
+                    <div id="modalitychart" class="viz_chart"><p class="graphtop"><span class="title">Restriction</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>
                     <div id="deliverychart" class="viz_chart"><p class="graphtop"><span class="title">Delivery</span>Current filter: <span class='filter' style='display: none;'></span></p> </div>                     
                 </div>
             </div> 
@@ -75,9 +83,10 @@
                                 <th>Country</th>
                                 <th>Organisation</th>
                                 <th>Sector</th>
-                                <th>Modality</th>
-                                <th>Total value (CHF)</th>
-                                <th>Year</th>          
+                                <th>Restriction</th>
+                                <th>Delivery</th>
+                                <th>Beneficiaries Reached</th>    
+                                <th>Total value (CHF)</th>        
                             </tr>
                         </thead>
                     </table>
