@@ -1,13 +1,13 @@
 function generateDash(data,geom){
     
     $('.sp-circle').remove();
-
+    console.log(data);
     var cf = crossfilter(data);
         cf.whereDim = cf.dimension(function(d){return d['#country+code']});
-        cf.whoDim = cf.dimension(function(d){return d['#org']});
+        cf.whoDim = cf.dimension(function(d){return d['#org+implementing']});
         cf.whatDim = cf.dimension(function(d){return d['#sector']});
-        cf.modalityDim = cf.dimension(function(d){return d['#modality']});
-        cf.deliveryDim = cf.dimension(function(d){return d['#delivery+mechanism']});
+        cf.modalityDim = cf.dimension(function(d){return d['#modality+restriction']});
+        cf.deliveryDim = cf.dimension(function(d){return d['#channel']});
 
         cf.whereGroup = cf.whereDim.group();
         cf.whoGroup = cf.whoDim.group();
@@ -16,15 +16,31 @@ function generateDash(data,geom){
         cf.deliveryGroup = cf.deliveryDim.group();
 
         var fundingall = cf.groupAll().reduceSum(function(d) {
-            if(isNaN(d['#value+total'])){
+            if(isNaN(parseInt(d['#value+cash+spent']))){
                 return 0;
             } else {
-                return d['#value+total'];
+                return parseInt(d['#value+cash+spent']);
             }
         });
 
         var fundingQuality = cf.groupAll().reduceSum(function(d) {
-            if(isNaN(d['#value+total'])){
+            if(isNaN(parseInt(d['#value+spent+cash']))){
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        var benall = cf.groupAll().reduceSum(function(d) {
+            if(isNaN(parseInt(d['#reached']))){
+                return 0;
+            } else {
+                return parseInt(d['#reached']);
+            }
+        });
+
+        var benQuality = cf.groupAll().reduceSum(function(d) {
+            if(isNaN(parseInt(d['#reached']))){
                 return 1;
             } else {
                 return 0;
@@ -136,20 +152,28 @@ function generateDash(data,geom){
                    return d['#country+name']; 
                 },
                 function(d){
-                   return d['#org']; 
+                   return d['#org+implementing']; 
                 },
                 function(d){
                    return d['#sector']; 
                 },
                 function(d){
-                   return d['#modality']; 
+                   return d['#modality+restriction']; 
                 },
                 function(d){
-                   return d['#value+total']; 
+                   return d['#channel']; 
                 },
                 function(d){
-                    return d['#date']
-                }                                                  
+                    let value = parseInt(d['#reached']);
+                    if(isNaN(value)){
+                        return "No Data";
+                    } else {
+                        return parseInt(d['#reached']); 
+                    }
+                },
+                function(d){
+                   return d['#value+cash+spent']; 
+                }                                                                                                                                                
             ]).sortBy(function(d) {
                 return d['#country+name'];
             });
@@ -160,7 +184,15 @@ function generateDash(data,geom){
 
         dc.dataCount("#totalquality")
             .dimension(cf)
-            .group(fundingQuality);            
+            .group(fundingQuality);
+
+        dc.dataCount("#bentotal")
+            .dimension(cf)
+            .group(benall);
+
+        dc.dataCount("#benquality")
+            .dimension(cf)
+            .group(benQuality);                         
 
         dc.dataCount("#count-info")
             .dimension(cf)
@@ -238,7 +270,7 @@ function hxlProxyToJSON(input,headers){
 
 var dataCall = $.ajax({ 
     type: 'GET', 
-    url: 'https://proxy.hxlstandard.org/data.json?url=https%3A//docs.google.com/spreadsheets/d/1s-piTxQUT0Q8ReO6uVy-72ZFb3R9K3I5zAnb2YNN83c/edit%3Fusp%3Dsharing&strip-headers=on&force=on',
+    url: 'https://proxy.hxlstandard.org/data.json?filter01=select&select-query01-01=%23date%2Byear%3D2017&filter02=replace-map&replace-map-url02=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1hTE0U3V8x18homc5KxfA7IIrv1Y9F1oulhJt0Z4z3zo%2Fedit%23gid%3D0&filter03=merge&merge-url03=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1GugpfyzridvfezFcDsl6dNlpZDqI8TQJw-Jx52obny8%2Fedit%23gid%3D0&merge-keys03=%23country%2Bname&merge-tags03=%23country%2Bcode&filter04=replace&replace-pattern04=%5E%24&replace-regex04=on&replace-value04=No+data&replace-tags04=%23sector%2C%23modality%2C%23channel-ecash&strip-headers=on&url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1s-piTxQUT0Q8ReO6uVy-72ZFb3R9K3I5zAnb2YNN83c%2Fedit%23gid%3D1496776846&force=on',
     dataType: 'json',
 });
 
