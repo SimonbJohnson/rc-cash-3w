@@ -9,11 +9,11 @@ function generateDash(data,geom){
         cf.modalityDim = cf.dimension(function(d){return d['#modality+restriction']});
         cf.deliveryDim = cf.dimension(function(d){return d['#channel']});
 
-        cf.whereGroup = cf.whereDim.group();
-        cf.whoGroup = cf.whoDim.group();
-        cf.whatGroup = cf.whatDim.group();
-        cf.modalityGroup = cf.modalityDim.group();
-        cf.deliveryGroup = cf.deliveryDim.group();
+        cf.whereGroup = cf.whereDim.group().reduceSum(function(d) {return d['#reached']});
+        cf.whoGroup = cf.whoDim.group().reduceSum(function(d) {return d['#reached']});
+        cf.whatGroup = cf.whatDim.group().reduceSum(function(d) {return d['#reached']});
+        cf.modalityGroup = cf.modalityDim.group().reduceSum(function(d) {return d['#reached']});
+        cf.deliveryGroup = cf.deliveryDim.group().reduceSum(function(d) {return d['#reached']});
 
         var fundingall = cf.groupAll().reduceSum(function(d) {
             if(isNaN(parseInt(d['#value+cash+spent']))){
@@ -24,7 +24,7 @@ function generateDash(data,geom){
         });
 
         var fundingQuality = cf.groupAll().reduceSum(function(d) {
-            if(isNaN(parseInt(d['#value+spent+cash']))){
+            if(isNaN(parseInt(d['#value+cash+spent']))){
                 return 1;
             } else {
                 return 0;
@@ -73,7 +73,7 @@ function generateDash(data,geom){
             .colorDomain([0,1])
             .colorAccessor(function(d, i){return 1;})
             .ordering(function(d){ return -d.value })
-            .xAxis().ticks(5);
+            .xAxis().ticks(3);
 
         cf.modalityChart.width($('#modalitychart').width()).height(150)
             .dimension(cf.modalityDim)
@@ -83,7 +83,7 @@ function generateDash(data,geom){
             .colorDomain([0,1])
             .colorAccessor(function(d, i){return 1;})
             .ordering(function(d){ return -d.value })
-            .xAxis().ticks(5);
+            .xAxis().ticks(3);
 
         cf.deliveryChart.width($('#deliverychart').width()).height(230)
             .dimension(cf.deliveryDim)
@@ -93,14 +93,14 @@ function generateDash(data,geom){
             .colorDomain([0,1])
             .colorAccessor(function(d, i){return 1;})
             .ordering(function(d){ return -d.value })
-            .xAxis().ticks(5);                             
+            .xAxis().ticks(3);                             
 
         dc.axisChart('#row-axis')
             .width($('#whatchart').width()).height(50)
             .dimension( cf.whoDim )
             .group( cf.whoGroup )
             .elasticX( true )
-            .xAxis().ticks(5);            
+            .xAxis().ticks(3);            
 
         cf.whereChart.width($('#wherechart').width()).height(750)
             .dimension(cf.whereDim)
@@ -120,9 +120,9 @@ function generateDash(data,geom){
             .featureKeyAccessor(function(feature){
                 return feature.properties['ISO_A3'];
             })
-            .popup(function(feature){
+            /*.popup(function(feature){
                 return feature.properties['NAME'];
-            })
+            })*/
             .renderPopup(true)
             .featureOptions({
                 'fillColor': '#cccccc',
@@ -209,7 +209,8 @@ function generateDash(data,geom){
         .attr('text-anchor', 'middle')
         .attr('x', $('#row-axis').width()/2)
         .attr('y', 46)
-        .text('No. responses');
+        .attr('class','axislabel')
+        .text('No. beneficiaries');
 
     var g = d3.selectAll('#whatchart').select('svg').append('g');
     
@@ -217,13 +218,10 @@ function generateDash(data,geom){
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
         .attr('x', $('#whatchart').width()/2)
-        .attr('y', 296)
-        .text('No. responses');            
+        .attr('y', 198)
+        .attr('class','axislabel')
+        .text('No. beneficiaries');            
 
-            $('#reset').on('click',function(){
-                dc.filterAll();
-                dc.redrawAll();
-            });
 
     var g = d3.selectAll('#modalitychart').select('svg').append('g');
     
@@ -231,13 +229,25 @@ function generateDash(data,geom){
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
         .attr('x', $('#modalitychart').width()/2)
-        .attr('y', 296)
-        .text('No. responses');            
+        .attr('y', 148)
+        .attr('class','axislabel')
+        .text('No. beneficiaries');    
+            
 
-            $('#reset').on('click',function(){
-                dc.filterAll();
-                dc.redrawAll();
-            });              
+    var g = d3.selectAll('#deliverychart').select('svg').append('g');
+    
+    g.append('text')
+        .attr('class', 'x-axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('x', $('#modalitychart').width()/2)
+        .attr('y', 228)
+        .attr('class','axislabel')
+        .text('No. beneficiaries');
+
+    $('#reset').on('click',function(){
+        dc.filterAll();
+        dc.redrawAll();
+    });              
 }
 
 function hxlProxyToJSON(input,headers){
