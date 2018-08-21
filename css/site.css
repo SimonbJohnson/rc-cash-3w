@@ -75,3 +75,7 @@
 .dc-chart g.row text {
   font-size: 13px;
 }
+
+.axislabel {
+    font-size:10px;
+}
