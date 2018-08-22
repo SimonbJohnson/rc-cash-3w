@@ -1,7 +1,7 @@
 function generateDash(data,geom){
     
     $('.sp-circle').remove();
-    console.log(data);
+    $('#datatable').hide();
     var cf = crossfilter(data);
         cf.whereDim = cf.dimension(function(d){return d['#country+code']});
         cf.whoDim = cf.dimension(function(d){return d['#org+implementing']});
@@ -65,6 +65,14 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis({ tickSize: [0, 0]});
 
+        cf.whoChart.on("postRedraw",(function(e){
+                if(e.filters().length==0){
+                    $('#datatable').hide();
+                } else {
+                    $('#datatable').show();
+                }
+            }));    
+
         cf.whatChart.width($('#whatchart').width()).height(200)
             .dimension(cf.whatDim)
             .group(cf.whatGroup)
@@ -120,9 +128,9 @@ function generateDash(data,geom){
             .featureKeyAccessor(function(feature){
                 return feature.properties['ISO_A3'];
             })
-            /*.popup(function(feature){
+            .popup(function(feature){
                 return feature.properties['NAME'];
-            })*/
+            })
             .renderPopup(true)
             .featureOptions({
                 'fillColor': '#cccccc',
@@ -135,10 +143,21 @@ function generateDash(data,geom){
         cf.whereChart.on("postRedraw",(function(e){
                 var html = "";
                 e.filters().forEach(function(l){
-                    html += l+", ";
+                    html += html+", ";
                 });
+                if(e.filters().length==0){
+                    $('#datatable').hide();
+                } else {
+                    $('#datatable').show();
+                }
                 $('#mapfilter').html(html);
-            }));      
+            }));
+
+        cf.whereChart.addFilterHandler(function (filters, filter) {
+            filters.length = 0; // empty the array
+            filters.push(filter);
+            return filters;
+        });      
 
         dc.dataTable("#data-table")
             .dimension(cf.whereDim)                
