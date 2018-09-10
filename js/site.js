@@ -65,15 +65,18 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis({ tickSize: [0, 0]});
 
-        cf.whoChart.on("postRedraw",(function(e){
-                if(e.filters().length==0){
-                    $('#datatable').hide();
-                } else {
-                    $('#datatable').show();
-                }
-            }));    
+        cf.whoChart.addFilterHandler(function (filters, filter) {
+            filters.length = 0; // empty the array
+            filters.push(filter);
+            if(filters.length==0){
+                $('#datatable').hide();
+            } else {
+                $('#datatable').show();
+            }
+            return filters;
+        });   
 
-        cf.whatChart.width($('#whatchart').width()).height(200)
+        cf.whatChart.width($('#whatchart').width()).height(250)
             .dimension(cf.whatDim)
             .group(cf.whatGroup)
             .elasticX(true)
@@ -83,7 +86,7 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis().ticks(3);
 
-        cf.modalityChart.width($('#modalitychart').width()).height(150)
+        cf.modalityChart.width($('#modalitychart').width()).height(130)
             .dimension(cf.modalityDim)
             .group(cf.modalityGroup)
             .elasticX(true)
@@ -93,7 +96,7 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis().ticks(3);
 
-        cf.deliveryChart.width($('#deliverychart').width()).height(230)
+        cf.deliveryChart.width($('#deliverychart').width()).height(160)
             .dimension(cf.deliveryDim)
             .group(cf.deliveryGroup)
             .elasticX(true)
@@ -140,7 +143,7 @@ function generateDash(data,geom){
                 'weight': 0.5
             });
 
-        cf.whereChart.on("postRedraw",(function(e){
+        /*cf.whereChart.on("postRedraw",(function(e){
                 var html = "";
                 e.filters().forEach(function(l){
                     html += html+", ";
@@ -151,11 +154,21 @@ function generateDash(data,geom){
                     $('#datatable').show();
                 }
                 $('#mapfilter').html(html);
-            }));
+            }));)*/
 
         cf.whereChart.addFilterHandler(function (filters, filter) {
             filters.length = 0; // empty the array
             filters.push(filter);
+            var html = "";
+            filters.forEach(function(l){
+                 html += html+", ";
+            });
+            if(filters.length==0){
+                $('#datatable').hide();
+            } else {
+                $('#datatable').show();
+            }
+            $('#mapfilter').html(html);
             return filters;
         });      
 
@@ -187,11 +200,16 @@ function generateDash(data,geom){
                     if(isNaN(value)){
                         return "No Data";
                     } else {
-                        return parseInt(d['#reached']); 
+                        return value.toString().replace(/(<([^>]+)>)/ig,"").replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
                     }
                 },
                 function(d){
-                   return d['#value+cash+spent']; 
+                    let value = parseInt(d['#value+cash+spent']);
+                    if(isNaN(value)){
+                        return "No Data";
+                    } else {
+                        return value.toString().replace(/(<([^>]+)>)/ig,"").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }                    
                 }                                                                                                                                                
             ]).sortBy(function(d) {
                 return d['#country+name'];
