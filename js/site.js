@@ -255,7 +255,7 @@ function generateDash(data,geom){
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
         .attr('x', $('#whatchart').width()/2)
-        .attr('y', 198)
+        .attr('y', 248)
         .attr('class','axislabel')
         .text('No. beneficiaries');            
 
@@ -266,7 +266,7 @@ function generateDash(data,geom){
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
         .attr('x', $('#modalitychart').width()/2)
-        .attr('y', 148)
+        .attr('y', 128)
         .attr('class','axislabel')
         .text('No. beneficiaries');    
             
@@ -277,7 +277,7 @@ function generateDash(data,geom){
         .attr('class', 'x-axis-label')
         .attr('text-anchor', 'middle')
         .attr('x', $('#modalitychart').width()/2)
-        .attr('y', 228)
+        .attr('y', 158)
         .attr('class','axislabel')
         .text('No. beneficiaries');
 
