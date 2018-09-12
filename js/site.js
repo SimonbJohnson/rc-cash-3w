@@ -65,16 +65,18 @@ function generateDash(data,geom){
             .ordering(function(d){ return -d.value })
             .xAxis({ tickSize: [0, 0]});
 
-        cf.whoChart.addFilterHandler(function (filters, filter) {
-            filters.length = 0; // empty the array
-            filters.push(filter);
-            if(filters.length==0){
-                $('#datatable').hide();
-            } else {
-                $('#datatable').show();
-            }
-            return filters;
-        });   
+        cf.whoChart.on("postRedraw",(function(e){
+                if(e.filters().length>0){
+                    tableshow.who = true;
+                } else {
+                    tableshow.who = false;
+                }
+                if(tableshow.where || tableshow.who){
+                    $('#datatable').show();
+                } else {
+                    $('#datatable').hide();
+                }
+            }));  
 
         cf.whatChart.width($('#whatchart').width()).height(250)
             .dimension(cf.whatDim)
@@ -143,34 +145,23 @@ function generateDash(data,geom){
                 'weight': 0.5
             });
 
-        /*cf.whereChart.on("postRedraw",(function(e){
+        cf.whereChart.on("postRedraw",(function(e){
                 var html = "";
                 e.filters().forEach(function(l){
-                    html += html+", ";
+                    html += html+l+", ";
                 });
-                if(e.filters().length==0){
-                    $('#datatable').hide();
+                if(e.filters().length>0){
+                    tableshow.where = true;
                 } else {
+                    tableshow.where = false;
+                }
+                if(tableshow.where || tableshow.who){
                     $('#datatable').show();
+                } else {
+                    $('#datatable').hide();
                 }
                 $('#mapfilter').html(html);
-            }));)*/
-
-        cf.whereChart.addFilterHandler(function (filters, filter) {
-            filters.length = 0; // empty the array
-            filters.push(filter);
-            var html = "";
-            filters.forEach(function(l){
-                 html += html+", ";
-            });
-            if(filters.length==0){
-                $('#datatable').hide();
-            } else {
-                $('#datatable').show();
-            }
-            $('#mapfilter').html(html);
-            return filters;
-        });      
+            }));    
 
         dc.dataTable("#data-table")
             .dimension(cf.whereDim)                
@@ -326,6 +317,8 @@ var geomCall = $.ajax({
     url: 'data/world.json', 
     dataType: 'json'
 });
+
+var tableshow = {'who':false,'where':false};
 
 $.when(dataCall, geomCall).then(function(dataArgs, geomArgs){
     var data = dataArgs[0];
